@@ -11,5 +11,8 @@
     "url": "CPRX"
   },
   "author": "RyoSh1, xxoel, Ruby960, Constantinoalves",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
 }
