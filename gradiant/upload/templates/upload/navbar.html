@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" type='text/css' media='screen' href="{% static 'stats.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" >
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if dashboard or valors %}active{% endif %}" href="/stats">ESTADÍSTICAS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if medicos %}active{% endif %}" href="/stats/listMed/">MÉDICOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if pacientes %}active{% endif %}" href="/stats/listPat/">PACIENTES</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="navbar-brand" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><u>{{user.username}}</u></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/logout">CERRAR SESIÓN</a>
+                </div>
+            </div>        
+        <div class="circle">
+            <p>{{ iniciales }}</p>
+        </div>
+
+    </nav>
+
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</hmtl>
