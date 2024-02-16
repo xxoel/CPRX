@@ -1,0 +1,15 @@
+{
+  "name": "bizaway",
+  "version": "1.0.0",
+  "description": "bizaway app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "CPRX"
+  },
+  "author": "RyoSh1, xxoel, Ruby960, Constantinoalves",
+  "license": "MIT"
+}

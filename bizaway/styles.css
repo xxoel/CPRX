@@ -1,0 +1,15 @@
+
+/* styles.css */
+.dynamic-input {
+    margin: 5px;
+}
+
+#output-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#output-container strong {
+    margin-right: 5px;
+}
