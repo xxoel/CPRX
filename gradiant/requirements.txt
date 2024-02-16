@@ -1,0 +1,6 @@
+django==4
+psycopg2
+django-extensions
+matplotlib
+pendulum
+pandas
