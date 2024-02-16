@@ -1,7 +1,14 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
 
-/* styles.css */
-.dynamic-input {
-    margin: 5px;
+.input-container {
+    margin-bottom: 10px;
 }
 
 #output-container {
@@ -10,6 +17,21 @@
     justify-content: center;
 }
 
-#output-container strong {
+.dynamic-input {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.dynamic-input input {
     margin-right: 5px;
+}
+
+.show-button {
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
