@@ -2,27 +2,11 @@
 {% load static %}
 {% block title %}Upload{% endblock %}
 {% block content %}
-
-<h1>Seleccione un fichero a subir</h1>
-
 <div class="spinner"></div>
 
+        {{ request.data }}
 
-    <body>
-        <!-- List of uploaded documents -->
-        {% if documents %}
-            All documents in the database:
-            <ul>
-                {% for document in documents %}
-                    <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No documents.</p>
-        {% endif %}
-
-
-        <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ message }}
             <p>{{ form.non_field_errors }}</p>
@@ -33,9 +17,9 @@
                 {{ form.docfile.errors }}
                 {{ form.docfile }}
             </p>
-
-            <input type="file"/>
+            <input type="file" name="myfile">
             <button type="submit">Upload</button>
-        </form>
+          </form>
+
 
 {% endblock %}
