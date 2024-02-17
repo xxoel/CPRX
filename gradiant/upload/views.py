@@ -1,7 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import DocumentForm
-from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
+import os
 
 # Reading file from storage
 # file = default_storage.open(file_name)
@@ -13,12 +14,13 @@ def upload(request):
 
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
-        print(request.FILES)
+        path = os.path.abspath(os.getcwd()) + '/upload/files'
+        fs = FileSystemStorage(location=path)
         if form.is_valid():
-            
             file = request.FILES['myfile']
-            default_storage.save(file.name, file)
-            return HttpResponseRedirect("/success")
+            fs.save(file.name, file)
+            context = {'filename':file.name}
+            return render(request, 'upload/success.html', context)
     else:
         form = DocumentForm()
 
