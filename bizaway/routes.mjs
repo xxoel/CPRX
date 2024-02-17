@@ -238,9 +238,8 @@ async function obtenerDistanciaSubRuta(origen, destino) {
 function calcularcompanions(coordenadasOrigen,aeropuertoOrigen){
     const distanciaaero = calcularDistancia(coordenadasOrigen.latitud, coordenadasOrigen.longitud, aeropuertoOrigen.latitud, aeropuertoOrigen.longitud);
     for (let i = 0; i < array.length; i++) {
-        console.log("hice una");
         if(distanciaaero > calcularDistancia(coordenadasOrigen.latitud, coordenadasOrigen.longitud, array[i].latitud, array[i].longitud)){
-            console.log("puede buscar al cliente: " + i);
+            document.body.appendChild(document.createElement("p").appendChild(document.createTextNode("cliente: " + array.length + " puede buscar al cliente: " + i)));
         }
     }
 }
