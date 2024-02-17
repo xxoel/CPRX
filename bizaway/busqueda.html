@@ -9,19 +9,24 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button onclick="window.location.href = 'index.html';" >Volver al Inicio</button>
-    <div class="input-container">
-        <form id="routeForm">
-            <label for="numberInput">Ingrese un número:</label>
-            <input type="number" id="numberInput" name="number" required>
-            
-            <!-- Agrega el campo de entrada para el destino -->
-            <label for="destinationInput">Destino:</label>
-            <input type="text" id="destinationInput" name="destination" required>
-            
-            <button type="submit">Generar</button>
+    <button id="backbut" onclick="window.location.href = 'index.html';" > <b>&larr;</b> Volver al Inicio</button>
+        <form class="centered" id="routeForm">
+            <div class="containertwo">
+                <div class="containerone">
+                    <div class="containertwo">
+                        <label class="leftpad" for="numberInput">Ingrese un número:</label>
+                        <input type="number" id="numberInput" name="number" placeholder="2" required>
+                    </div>
+                    <!-- Agrega el campo de entrada para el destino -->
+                    <div class="containertwo">
+                        <label class="leftpad" for="destinationInput">Destino:</label>
+                        <input type="text" id="destinationInput" placeholder="Sarria" name="destination" required>
+                    </div>
+                </div>
+                <button id="submitbut" type="submit">Generar</button>
+            </div>
         </form>
-    </div>
+    
 
     <div id="output-container"></div>
 

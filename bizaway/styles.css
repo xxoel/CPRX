@@ -1,18 +1,45 @@
 body {
-    background-image: url('/pics/bg.png'); /* Reemplaza 'ruta/de/tu/imagen.jpg' con la ruta de tu imagen */
+    background-color: #219ebc; /* Reemplaza 'ruta/de/tu/imagen.jpg' con la ruta de tu imagen */
     background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
-    background-position: center; /* Centra la imagen en el fondo */
     background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin: 0;
+    width: 95vw;
+    height: 95vh;
 }
 
-.input-container {
-    margin-bottom: 10px;
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    text-align: center;
+    font-size: x-large;
+}
+
+#submitbut {
+    align-self: center;
+    margin-top: 1%;
+    font-size: x-large;
+}
+
+.containerone {
+    display: flex;
+    flex-direction: row;
+}
+
+.containertwo > label {
+    align-self: self-start;
+}
+
+.containertwo {
+    font-size: xx-large;
+    display: flex;
+    flex-direction: column;
+}
+
+#backbut {
+    font-size: large;
 }
 
 #output-container {
@@ -44,6 +71,7 @@ body {
     cursor: pointer;
     background-color: #4caf50;
     color: white;
+    font-size: large;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
