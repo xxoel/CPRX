@@ -17,9 +17,10 @@ body {
 
 #output-container {
     display: flex;
+    flex-direction: column; /* Coloca los elementos en columnas */
+    justify-content: flex-start; /* Alinea los elementos hacia arriba */
+    align-items: flex-start; /* Alinea los elementos a la izquierda */
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start; /* Alinea los elementos hacia arriba */
 }
 
 .dynamic-input {

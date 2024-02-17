@@ -1,14 +1,26 @@
-export async function buscarVuelosDeIda(codigoOrigen, codigoDestino, fechaSalida) {
-    const apiKey = 'sh428739766321522266746152871799'; // Reemplaza con tu propia clave de API de Skyscanner
-    const url = `https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/US/USD/en-US/${codigoOrigen}-sky/${codigoDestino}-sky/${fechaSalida}?apiKey=${apiKey}`;
-  
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.error('Error al buscar vuelos de ida:', error);
-      return null;
-    }
+export async function buscarVuelosDeIda(lat1,lon1,lat2,lon2) {
+    const distancia = calcularDistancia(lat1,lon1,lat2,lon2);
+    console.log("Distancia vuelo: " + distancia);
+    return distancia * 0.04;
   }
+
+
+  function calcularDistancia(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radio de la Tierra en kilómetros
+
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distancia = R * c; // Distancia en kilómetros
+    return distancia;
+}
+
+function toRad(grados) {
+    return grados * Math.PI / 180;
+}

@@ -1,4 +1,9 @@
 import { buscarVuelosDeIda } from "./flights.mjs";
+//import L from 'leaflet';
+
+
+var apiKey = '132e1158-0596-4825-9df1-e4c076b7fc3b';
+var apiBaseUrl = 'https://graphhopper.com/api/1/route?point=';
 
 export function mostrarRuta(origen, destino, container) {
     obtenerCoordenadas(origen)
@@ -16,21 +21,48 @@ export function mostrarRuta(origen, destino, container) {
         });
 }
 
-function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, container) {
-    var apiKey = '132e1158-0596-4825-9df1-e4c076b7fc3b';
-    var apiUrl = 'https://graphhopper.com/api/1/route?point=' + coordenadasOrigen.latitud + ',' + coordenadasOrigen.longitud + '&point=' + coordenadasDestino.latitud + ',' + coordenadasDestino.longitud + '&vehicle=car&locale=en&points_encoded=false&key=' + apiKey;
+async function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, container) {
+    try {
+        const apiUrl = apiBaseUrl + coordenadasOrigen.latitud + ',' + coordenadasOrigen.longitud +
+            '&point=' + coordenadasDestino.latitud + ',' + coordenadasDestino.longitud +
+            '&vehicle=car&locale=en&points_encoded=false&key=' + apiKey;
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.paths[0].distance);///esta es la distancia en kilómetros
-            obtenerAeropuertosCercanos(coordenadasOrigen.latitud, coordenadasOrigen.longitud, 100000);
-            buscarVuelosDeIda("TOJ","SCQ","18/02/2024");
-            mostrarRutaEnMapaCliente(data, container);
-        })
-        .catch(error => {
-            console.error('Error al obtener la ruta desde GraphHopper:', error);
-        });
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        const aeropuertoOrigen = await obtenerAeropuertoCercano(coordenadasOrigen.latitud, coordenadasOrigen.longitud);
+        const aeropuertoDestino = await obtenerAeropuertoCercano(coordenadasDestino.latitud, coordenadasDestino.longitud);
+        const data2_1 = await obtenerDistanciaSubRuta(aeropuertoOrigen, coordenadasOrigen);
+        const data2_2 = await obtenerDistanciaSubRuta(coordenadasDestino, aeropuertoDestino);
+
+        const gastoVuelo = await buscarVuelosDeIda(coordenadasOrigen.latitud, coordenadasOrigen.longitud, coordenadasDestino.latitud, coordenadasDestino.longitud);
+        const gastoTotalVuelo = gastoVuelo + data2_1.paths[0].distance * 0.00008 + data2_2.paths[0].distance * 0.00008;
+        const gastoTotalCoche = data.paths[0].distance * 0.00008;
+
+        console.log("Gasto Real =" + gastoTotalCoche + " Gasto con vuelo:" + gastoTotalVuelo);
+        var contenedorMapa = document.createElement('div');
+        contenedorMapa.style.width = '100%'; // Ajusta según sea necesario
+        contenedorMapa.style.height = '300px';
+        if (gastoTotalCoche < gastoTotalVuelo) {
+            // Si el gasto en coche es menor, muestra la ruta en el mapa
+            mostrarRutaEnMapaCliente(data, container, false);
+        } else {
+            mostrarRutaEnMapaCliente(data2_1, container, true);
+            mostrarRutaEnMapaCliente(data2_2, container, true);
+
+            // Agrega el texto "VUELO" en el medio
+            const centroLatitud = (coordenadasOrigen.latitud + coordenadasDestino.latitud) / 2;
+            const centroLongitud = (coordenadasOrigen.longitud + coordenadasDestino.longitud) / 2;
+
+            const vueloTexto = L.marker([centroLatitud, centroLongitud], { icon: L.divIcon({ className: 'vuelo-label', html: 'VUELO' }) });
+            vueloTexto.addTo(contenedorMapa);
+        }
+
+        // Agregar el contenedorMapa al contenedor principal proporcionado
+        container.appendChild(contenedorMapa);
+    } catch (error) {
+        console.error('Error al obtener la ruta desde GraphHopper:', error);
+    }
 }
 
 function obtenerCoordenadas(ciudad) {
@@ -49,32 +81,66 @@ function obtenerCoordenadas(ciudad) {
         });
 }
 
-// Función para mostrar la ruta en el mapa
-function mostrarRutaEnMapaCliente(data, container) {
+
+
+// ...
+
+function mostrarRutaEnMapaCliente(data, container, isSubRoute) {
+    if (!(container instanceof HTMLElement)) {
+        console.error('El contenedor proporcionado no es un elemento HTML válido.');
+        return;
+    }
+
     var route = data.paths[0];
     var routePoints = route.points.coordinates.map(function(coord) {
         return [coord[1], coord[0]];
     });
 
-    // Crear un nuevo mapa para el cliente
-    var clientMap = L.map(container).setView([0, 0], 12); // Ajusta las coordenadas y el nivel de zoom según tu necesidad
+    var subContainer;
+
+    if (isSubRoute) {
+        // Si es una subruta, crea un nuevo contenedor y agrégalo al contenedor principal
+        subContainer = document.createElement('div');
+        subContainer.style.width = '100%'; // Ajusta según sea necesario
+        subContainer.style.height = '300px'; // Ajusta según sea necesario
+        container.appendChild(subContainer);
+
+        // Inicializa el mapa en el nuevo contenedor
+        const clientMap = inicializarMapa(subContainer);
+
+        // Agregar la nueva ruta al mapa del cliente
+        L.polyline(routePoints, {color: 'blue'}).addTo(clientMap);
+        clientMap.fitBounds(L.polyline(routePoints).getBounds());
+    } else {
+        // Si no es una subruta, simplemente usa el contenedor principal proporcionado
+        const clientMap = inicializarMapa(container);
+
+        // Agregar la nueva ruta al mapa del cliente
+        L.polyline(routePoints, {color: 'blue'}).addTo(clientMap);
+        clientMap.fitBounds(L.polyline(routePoints).getBounds());
+    }
+}
+
+// ...
+
+// Función para inicializar un mapa Leaflet
+function inicializarMapa(container) {
+    const map = L.map(container).setView([0, 0], 12);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(clientMap);
+    }).addTo(map);
 
-    // Agregar la nueva ruta al mapa del cliente
-    L.polyline(routePoints, {color: 'blue'}).addTo(clientMap);
-    clientMap.fitBounds(L.polyline(routePoints).getBounds());
+    return map;
 }
 
-async function obtenerAeropuertosCercanos(latitud, longitud, radio) {
+async function obtenerAeropuertoCercano(latitud, longitud) {
     const overpassApiUrl = 'https://overpass-api.de/api/interpreter';
     
-    // Construir la consulta Overpass para buscar nodos que representan aeropuertos
+    // Construir la consulta Overpass para buscar el nodo más cercano que represente un aeropuerto
     const overpassQuery = `
         [out:json];
-        node(around:${radio},${latitud},${longitud})["aeroway"="aerodrome"];
+        node(around:100000,${latitud},${longitud})["aeroway"="aerodrome"];
         out center;
     `;
 
@@ -88,17 +154,38 @@ async function obtenerAeropuertosCercanos(latitud, longitud, radio) {
         });
 
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
 
-        // Procesar los resultados y extraer las coordenadas
-        const aeropuertos = data.elements.map(element => ({
-            latitud: element.lat,
-            longitud: element.lon,
-        }));
-        console.log(aeropuertos);
-        return aeropuertos;
+        // Procesar los resultados y extraer las coordenadas del aeropuerto más cercano
+        if (data.elements.length > 0) {
+            const aeropuertoCercano = {
+                latitud: data.elements[0].lat,
+                longitud: data.elements[0].lon,
+            };
+            console.log("Aeropuerto Cercano: " + aeropuertoCercano.latitud  + "-" + aeropuertoCercano.longitud);
+            return aeropuertoCercano;
+        } else {
+            console.log('No se encontraron aeropuertos cercanos.');
+            return null;
+        }
     } catch (error) {
-        console.error('Error al obtener los aeropuertos cercanos:', error);
+        console.error('Error al obtener el aeropuerto cercano:', error);
         return null;
+    }
+}
+
+async function obtenerDistanciaSubRuta(origen, destino) {
+    try {
+        const apiUrl1 = apiBaseUrl + origen.latitud + ',' + origen.longitud +
+            '&point=' + destino.latitud + ',' + destino.longitud +
+            '&vehicle=car&locale=en&points_encoded=false&key=' + apiKey;
+
+        const response = await fetch(apiUrl1);
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error('Error al obtener las rutas desde GraphHopper:', error);
+        throw error; // Propagar el error para que sea manejado fuera de esta función si es necesario
     }
 }
