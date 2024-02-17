@@ -1,4 +1,4 @@
-import { buscarVuelosDeIda } from "./flights.mjs";
+import { buscarVuelosDeIda, calcularDistancia } from "./flights.mjs";
 //import L from 'leaflet';
 
 var array = [];
@@ -29,8 +29,10 @@ async function obtenerRuta(coordenadasOrigen, coordenadasDestino, container) {
 
         const response = await fetch(apiUrl);
         const data = await response.json();
-
+        
         const aeropuertoOrigen = await obtenerAeropuertoCercano(coordenadasOrigen.latitud, coordenadasOrigen.longitud);
+        calcularcompanions(coordenadasOrigen,aeropuertoOrigen);
+        array.push(coordenadasOrigen);
         const aeropuertoDestino = await obtenerAeropuertoCercano(coordenadasDestino.latitud, coordenadasDestino.longitud);
         const data2_1 = await obtenerDistanciaSubRuta(aeropuertoOrigen, coordenadasOrigen);
         const data2_2 = await obtenerDistanciaSubRuta(coordenadasDestino, aeropuertoDestino);
@@ -48,9 +50,6 @@ async function obtenerRuta(coordenadasOrigen, coordenadasDestino, container) {
             mostrarRutaEnMapaCliente(data, container, false);
         } else {
             mostrarRutaEnMapaCliente(data2_1, container, true);
-            console.log("AAAAAAAAAAA");
-            console.log(aeropuertoOrigen.nombre);
-            console.log(aeropuertoDestino.nombre);
             mostrarinfoVuelo(container,aeropuertoOrigen,aeropuertoDestino);
             mostrarRutaEnMapaCliente(data2_2, container, true);
 
@@ -233,5 +232,15 @@ async function obtenerDistanciaSubRuta(origen, destino) {
     } catch (error) {
         console.error('Error al obtener las rutas desde GraphHopper:', error);
         throw error; // Propagar el error para que sea manejado fuera de esta función si es necesario
+    }
+}
+
+function calcularcompanions(coordenadasOrigen,aeropuertoOrigen){
+    const distanciaaero = calcularDistancia(coordenadasOrigen.latitud, coordenadasOrigen.longitud, aeropuertoOrigen.latitud, aeropuertoOrigen.longitud);
+    for (let i = 0; i < array.length; i++) {
+        console.log("hice una");
+        if(distanciaaero > calcularDistancia(coordenadasOrigen.latitud, coordenadasOrigen.longitud, array[i].latitud, array[i].longitud)){
+            console.log("puede buscar al cliente: " + i);
+        }
     }
 }
