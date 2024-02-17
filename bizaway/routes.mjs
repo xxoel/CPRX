@@ -48,6 +48,7 @@ async function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestin
             mostrarRutaEnMapaCliente(data, container, false);
         } else {
             mostrarRutaEnMapaCliente(data2_1, container, true);
+            mostrarinfoVuelo(container);
             mostrarRutaEnMapaCliente(data2_2, container, true);
 
             // Agrega el texto "VUELO" en el medio
@@ -105,7 +106,6 @@ function mostrarRutaEnMapaCliente(data, container, isSubRoute) {
         subContainer.style.height = '300px'; // Ajusta según sea necesario
         subContainer.style.marginRight = '10%';
         subContainer.style.marginLeft = '10%';
-        subContainer.style.
         container.appendChild(subContainer);
 
         // Inicializa el mapa en el nuevo contenedor
@@ -124,6 +124,27 @@ function mostrarRutaEnMapaCliente(data, container, isSubRoute) {
     }
 }
 
+function mostrarinfoVuelo(container) {
+    if (!(container instanceof HTMLElement)) {
+        console.error('El contenedor proporcionado no es un elemento HTML válido.');
+        return;
+    }
+
+    // Aplicar display: flex y align-items: center al contenedor principal
+    
+
+    var subContainer = document.createElement('div');
+    subContainer.style.width = '20px'; // Ajusta según sea necesario
+    subContainer.style.height = '300px'; // Ajusta según sea necesario
+    subContainer.style.textAlign = 'center'; // Centra el contenido horizontalmente
+    subContainer.style.display = 'flex';
+    subContainer.style.alignItems = 'center';
+
+    var textoVuelo = document.createTextNode('VUELO');
+    subContainer.appendChild(textoVuelo);
+
+    container.appendChild(subContainer);
+}
 // ...
 
 // Función para inicializar un mapa Leaflet
