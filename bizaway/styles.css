@@ -16,14 +16,21 @@ body {
 }
 
 #output-container {
+    width: 100%;
     display: flex;
-    flex-direction: column; /* Coloca los elementos en columnas */
-    justify-content: flex-start; /* Alinea los elementos hacia arriba */
-    align-items: flex-start; /* Alinea los elementos a la izquierda */
-    flex-wrap: wrap;
+    flex-direction: row; /* Coloca los elementos en filas */
+    justify-content: flex-start; /* Alinea los elementos hacia la izquierda */
+    align-items: stretch; /* Hace que los elementos se estiren para ocupar toda la altura */
+    flex-wrap: wrap; /* Permite que los elementos se muevan a la siguiente fila si no hay suficiente espacio */
+}
+
+.cliente {
+    flex: 1; /* Hace que cada cliente ocupe todo el ancho disponible */
+    margin: 10px; /* Añade márgenes entre los clientes (ajusta según sea necesario) */
 }
 
 .dynamic-input {
+    width: 100%;
     margin: 10px;
     display: flex;
     align-items: center;
@@ -48,14 +55,23 @@ body {
 }
 
 .map-container {
+    display: flex;
+    flex-direction: row;
     height: 300px; /* Ajusta la altura según tus necesidades */
-    margin: 10px; /* Ajusta el margen para separar los mapas */
-    width: 300px;
+    margin: 10px; /* Ajusta el margen vertical para separar los mapas */
+    width: 100%;
     flex-shrink: 0;
+    padding: 2px;
 }
 
-#map {
-    height: 400px;
-    width: 100%;
-    margin-top: 20px;
+.map {
+    border: 1px solid black; /* Agrega un borde a cada mapa */
+    border-radius: 5px; /* Ajusta según sea necesario */
+    margin-right: 10px; /* Ajusta el margen derecho para separar los mapas horizontalmente */
+    height: 100%; /* Ocupa toda la altura del contenedor */
+    width: 300px;
+}
+
+.map:last-child {
+    margin-right: 0; /* Elimina el margen derecho para el último mapa y evita que se extienda fuera del contenedor */
 }

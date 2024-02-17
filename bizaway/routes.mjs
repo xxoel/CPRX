@@ -101,8 +101,10 @@ function mostrarRutaEnMapaCliente(data, container, isSubRoute) {
     if (isSubRoute) {
         // Si es una subruta, crea un nuevo contenedor y agrégalo al contenedor principal
         subContainer = document.createElement('div');
-        subContainer.style.width = '100%'; // Ajusta según sea necesario
+        subContainer.style.width = '300px'; // Ajusta según sea necesario
         subContainer.style.height = '300px'; // Ajusta según sea necesario
+        subContainer.style.marginRight = '10%';
+        subContainer.style.marginLeft = '10%';
         container.appendChild(subContainer);
 
         // Inicializa el mapa en el nuevo contenedor
