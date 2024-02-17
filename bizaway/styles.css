@@ -46,3 +46,8 @@ body {
     width: 100%;
     margin-top: 20px;
 }
+.map-container {
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    margin-top: 10px; /* Ajusta el margen superior según tus necesidades */
+    width: 300px;
+  }

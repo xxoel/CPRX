@@ -1,27 +1,22 @@
-// Inicializa Leaflet map
-var map = L.map('map').setView([0, 0], 2); // Ajusta las coordenadas según tu necesidad y el nivel de zoom
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
 
 // Función para mostrar la ruta en el mapa
-function mostrarRutaEnMapa(data) {
+function mostrarRutaEnMapaCliente(data, container) {
     var route = data.paths[0];
     var routePoints = route.points.coordinates.map(function(coord) {
         return [coord[1], coord[0]];
     });
 
-    // Limpiar capas anteriores antes de agregar la nueva ruta
-    map.eachLayer(function(layer) {
-        if (layer instanceof L.Polyline) {
-            map.removeLayer(layer);
-        }
-    });
+    // Crear un nuevo mapa para el cliente
+    var clientMap = L.map(container).setView([0, 0], 12); // Ajusta las coordenadas y el nivel de zoom según tu necesidad
 
-    // Agregar la nueva ruta al mapa
-    L.polyline(routePoints, {color: 'blue'}).addTo(map);
-    map.fitBounds(L.polyline(routePoints).getBounds());
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(clientMap);
+
+    // Agregar la nueva ruta al mapa del cliente
+    L.polyline(routePoints, {color: 'blue'}).addTo(clientMap);
+    clientMap.fitBounds(L.polyline(routePoints).getBounds());
 }
 
 // Tu código existente...
@@ -46,13 +41,20 @@ document.getElementById('routeForm').addEventListener('submit', function (event)
         const button = document.createElement('button');
         button.classList.add('show-button');
         button.textContent = 'Mostrar Ruta';
+
+        // Crea un nuevo contenedor para el mapa del cliente
+        const mapContainer = document.createElement('div');
+        mapContainer.classList.add('map-container');
+
+        // Asocia el evento click con la función mostrarRuta
         button.addEventListener('click', function () {
             const origen = input.value;
-            mostrarRuta(origen, destination, div);
+            mostrarRuta(origen, destination, mapContainer);
         });
 
         div.appendChild(input);
         div.appendChild(button);
+        div.appendChild(mapContainer);
         outputContainer.appendChild(div);
     }
 
@@ -87,7 +89,7 @@ function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, con
         .then(response => response.json())
         .then(data => {
             //container.innerHTML = `<div class="route-info"><strong>Ruta desde ${origen} hasta ${destino}:</strong> ${JSON.stringify(data)}</div>`;
-            mostrarRutaEnMapa(data);
+            mostrarRutaEnMapaCliente(data, container);
         })
         .catch(error => {
             console.error('Error al obtener la ruta desde GraphHopper:', error);
