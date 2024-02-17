@@ -5,7 +5,7 @@ export async function buscarVuelosDeIda(lat1,lon1,lat2,lon2) {
   }
 
 
-  function calcularDistancia(lat1, lon1, lat2, lon2) {
+export function calcularDistancia(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radio de la Tierra en kilómetros
 
     const dLat = toRad(lat2 - lat1);

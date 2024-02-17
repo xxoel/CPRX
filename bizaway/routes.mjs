@@ -10,7 +10,7 @@ export function mostrarRuta(origen, destino, container) {
         .then(coordenadasOrigen => {
             obtenerCoordenadas(destino)
                 .then(coordenadasDestino => {
-                    obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, container);
+                    obtenerRuta(coordenadasOrigen, coordenadasDestino, container);
                 })
                 .catch(error => {
                     console.error('Error al obtener las coordenadas del destino:', error);
@@ -21,7 +21,7 @@ export function mostrarRuta(origen, destino, container) {
         });
 }
 
-async function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, container) {
+async function obtenerRuta(coordenadasOrigen, coordenadasDestino, container) {
     try {
         const apiUrl = apiBaseUrl + coordenadasOrigen.latitud + ',' + coordenadasOrigen.longitud +
             '&point=' + coordenadasDestino.latitud + ',' + coordenadasDestino.longitud +
@@ -48,7 +48,10 @@ async function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestin
             mostrarRutaEnMapaCliente(data, container, false);
         } else {
             mostrarRutaEnMapaCliente(data2_1, container, true);
-            mostrarinfoVuelo(container);
+            console.log("AAAAAAAAAAA");
+            console.log(aeropuertoOrigen.nombre);
+            console.log(aeropuertoDestino.nombre);
+            mostrarinfoVuelo(container,aeropuertoOrigen,aeropuertoDestino);
             mostrarRutaEnMapaCliente(data2_2, container, true);
 
             // Agrega el texto "VUELO" en el medio
@@ -124,14 +127,14 @@ function mostrarRutaEnMapaCliente(data, container, isSubRoute) {
     }
 }
 
-function mostrarinfoVuelo(container) {
+function mostrarinfoVuelo(container,aeropuertoOrigen,aeropuertoDestino) {
     if (!(container instanceof HTMLElement)) {
         console.error('El contenedor proporcionado no es un elemento HTML válido.');
         return;
     }
 
     // Aplicar display: flex y align-items: center al contenedor principal
-    
+
 
     var subContainer = document.createElement('div');
     subContainer.style.width = '20px'; // Ajusta según sea necesario
@@ -140,8 +143,29 @@ function mostrarinfoVuelo(container) {
     subContainer.style.display = 'flex';
     subContainer.style.alignItems = 'center';
 
-    var textoVuelo = document.createTextNode('VUELO');
-    subContainer.appendChild(textoVuelo);
+    if (aeropuertoOrigen.nombre == undefined){
+        aeropuertoOrigen.nombre = "Sin nombre"
+    }
+    if (aeropuertoDestino.nombre == undefined){
+        aeropuertoDestino.nombre = "Sin nombre"
+    }
+    var textoVuelo = 'Vuelo desde \n'
+    var textoVuelo1 = aeropuertoOrigen.nombre;
+    var textoVuelo2 = ' a ';
+    var textoVuelo3 = aeropuertoDestino.nombre;
+    var nodoTexto = document.createTextNode(textoVuelo)
+    var nodoTexto1 = document.createTextNode(textoVuelo1);
+    var nodoTexto2 = document.createTextNode(textoVuelo2);
+    var nodoTexto3 = document.createTextNode(textoVuelo3);
+
+    // Adjunta los nodos de texto al subContainer
+    subContainer.appendChild(nodoTexto)
+    subContainer.appendChild(nodoTexto1);
+    subContainer.appendChild(nodoTexto2);
+    subContainer.appendChild(nodoTexto3);
+
+    // Adjunta subContainer al contenedor principal
+    container.appendChild(subContainer);
 
     container.appendChild(subContainer);
 }
@@ -160,7 +184,7 @@ function inicializarMapa(container) {
 
 async function obtenerAeropuertoCercano(latitud, longitud) {
     const overpassApiUrl = 'https://overpass-api.de/api/interpreter';
-    
+
     // Construir la consulta Overpass para buscar el nodo más cercano que represente un aeropuerto
     const overpassQuery = `
         [out:json];
@@ -178,13 +202,14 @@ async function obtenerAeropuertoCercano(latitud, longitud) {
         });
 
         const data = await response.json();
-        //console.log(data);
+        console.log(data);
 
         // Procesar los resultados y extraer las coordenadas del aeropuerto más cercano
         if (data.elements.length > 0) {
             const aeropuertoCercano = {
                 latitud: data.elements[0].lat,
                 longitud: data.elements[0].lon,
+                nombre: data.elements[0].tags.name
             };
             console.log("Aeropuerto Cercano: " + aeropuertoCercano.latitud  + "-" + aeropuertoCercano.longitud);
             return aeropuertoCercano;
