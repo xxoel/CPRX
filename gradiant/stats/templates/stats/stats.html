@@ -1,4 +1,19 @@
-{% extends 'stats/navbar.html' %} 
+<!--# Copyright (C) THEDATE Devin Breen
+# This file is part of dogtag <https://github.com/chiditarod/dogtag>.
+#
+# dogtag is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# dogtag is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with dogtag.  If not, see <http://www.gnu.org/licenses/>.*/-->
+{% extends 'stats/navbar.html' %}
 {% load static %}
 {% block title %}Stats{% endblock %}
 {% block content %}
@@ -28,7 +43,7 @@
                 <button id="resetbutton">Clear</button>
             </div>
             <input class="form-control" id="selectclient" type="month" name="month" {% if month %} value={{month}} {% endif%} onchange="this.form.submit()"/>
-        
+
         </form>
 
         <script>
@@ -37,7 +52,7 @@
               });
         </script>
 
-        
+
     {% endif %}
 
     {% if consumo %}
@@ -52,31 +67,31 @@
                 {% endif %}
 
                 <p>The average usage is <strong>{{ consumo|floatformat:3 }} kW/h</strong>.</p>
-    
+
                 <p>The maximum value consumed is <strong>{{ max.Consumo|floatformat:3 }} kW/h</strong> at {{max.datetime|date:'H:i A'}} on {{max.datetime|date:"d M Y"}}.</p>
-    
+
                 <p>The minimum value consumed is <strong>{{ min.Consumo|floatformat:3 }} kW/h</strong> at {{min.datetime|date:'H:i A'}} on {{min.datetime|date:"d M Y"}}.</p>
-                
+
                 <div class="prices">
                     <p>So, with this values, the cost is between <strong>{{cost.min|floatformat:3}}€</strong> and <strong>{{cost.max|floatformat:3}}€</strong>.</p>
                     <p>On average <strong>{{cost.avg|floatformat:3}}€</strong></p>
                 </div>
-                
-    
+
+
             </div>
             <div id="right">
                 {% if not hour %} <p>Graph representing the average usage per hour.</p> {% endif %}
                 {% if not month and hour %} <p>Graph representing the average usage per date at {{hour}}.</p> {% endif %}
                 {% if hour and month %} <p>Graph representing the usage per day at {{hour}} on {{month}}.</p> {% endif %}
-                <img src='data:image/png;base64,{{graph}}'/> 
+                <img src='data:image/png;base64,{{graph}}'/>
             </div>
         </div>
-        
+
     {% endif %}
 
     {% if nodata %}
         <h2 class="centered">No valid data</h2>
     {% endif %}
-   
+
 
 {% endblock %}

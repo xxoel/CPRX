@@ -1,35 +1,51 @@
+/*# Copyright (C) THEDATE Devin Breen
+# This file is part of dogtag <https://github.com/chiditarod/dogtag>.
+#
+# dogtag is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# dogtag is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with dogtag.  If not, see <http://www.gnu.org/licenses/>.*/
+
 @font-face {
     font-family: victorMonoRegular;
     src: url("/static/res/VictorMono-Regular.otf");
   }
-  
+
   @font-face {
     font-family: victorMonoItalic;
     src: url("/static/res/VictorMono-Italic.otf");
   }
-  
+
   * {
     font-family: victorMonoRegular;
-  
+
   }
-  
+
   .nav-tabs {
     background-color: black;
     height: 20%;
   }
-  
+
   a {
     color: white;
-  
+
   }
-  
+
   ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     font-size: large;
   }
-  
+
   .circle {
     width: 50px;
     height: 50px;
@@ -41,22 +57,22 @@
     background: white;
     margin-right: 1.5%;
   }
-  
+
   h1 {
     padding-top: 2%;
     padding-left: 2%;
     font-size: 4em;
   }
-  
+
   .form-label {
     margin-left: 1%;
   }
-  
+
   .spinner {
     margin-bottom: 1%;
     margin-left: 2%;
   }
-  
+
   .grupito {
     display: flex;
     flex-direction: row;

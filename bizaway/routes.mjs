@@ -29,7 +29,7 @@ async function obtenerRuta(coordenadasOrigen, coordenadasDestino, container) {
 
         const response = await fetch(apiUrl);
         const data = await response.json();
-        
+
         const aeropuertoOrigen = await obtenerAeropuertoCercano(coordenadasOrigen.latitud, coordenadasOrigen.longitud);
         calcularcompanions(coordenadasOrigen,aeropuertoOrigen);
         array.push(coordenadasOrigen);
