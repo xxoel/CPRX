@@ -23,7 +23,8 @@ function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, con
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log(JSON.stringify(data)[0].distance);
+            console.log(data.paths[0].distance);///esta es la distancia en kilómetros
+            obtenerAeropuertosCercanos(coordenadasOrigen.latitud, coordenadasOrigen.longitud, 100);
             mostrarRutaEnMapaCliente(data, container);
         })
         .catch(error => {
@@ -64,4 +65,20 @@ function mostrarRutaEnMapaCliente(data, container) {
     // Agregar la nueva ruta al mapa del cliente
     L.polyline(routePoints, {color: 'blue'}).addTo(clientMap);
     clientMap.fitBounds(L.polyline(routePoints).getBounds());
+}
+
+async function obtenerAeropuertosCercanos(latitud, longitud, radio) {
+    const apiKey = 'TU_API_KEY'; // TODO:Hay que sacar la api de esta mrd o de otra que devuelva los aeropuertos
+
+    const url = `https://opensky-network.org/api/airports?latitude=${latitud}&longitude=${longitud}&radius=${radio}&limit=10&username=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error al obtener los aeropuertos cercanos:', error);
+        return null;
+    }
 }
