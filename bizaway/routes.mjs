@@ -24,7 +24,7 @@ function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, con
         .then(response => response.json())
         .then(data => {
             console.log(data.paths[0].distance);///esta es la distancia en kilómetros
-            obtenerAeropuertosCercanos(coordenadasOrigen.latitud, coordenadasOrigen.longitud, 100);
+            obtenerAeropuertosCercanos(coordenadasOrigen.latitud, coordenadasOrigen.longitud, 100000);
             mostrarRutaEnMapaCliente(data, container);
         })
         .catch(error => {
@@ -68,15 +68,34 @@ function mostrarRutaEnMapaCliente(data, container) {
 }
 
 async function obtenerAeropuertosCercanos(latitud, longitud, radio) {
-    const apiKey = 'TU_API_KEY'; // TODO:Hay que sacar la api de esta mrd o de otra que devuelva los aeropuertos
-
-    const url = `https://opensky-network.org/api/airports?latitude=${latitud}&longitude=${longitud}&radius=${radio}&limit=10&username=${apiKey}`;
+    const overpassApiUrl = 'https://overpass-api.de/api/interpreter';
+    
+    // Construir la consulta Overpass para buscar nodos que representan aeropuertos
+    const overpassQuery = `
+        [out:json];
+        node(around:${radio},${latitud},${longitud})["aeroway"="aerodrome"];
+        out center;
+    `;
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(overpassApiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `data=${encodeURIComponent(overpassQuery)}`,
+        });
+
         const data = await response.json();
         console.log(data);
-        return data;
+
+        // Procesar los resultados y extraer las coordenadas
+        const aeropuertos = data.elements.map(element => ({
+            latitud: element.lat,
+            longitud: element.lon,
+        }));
+        console.log(aeropuertos);
+        return aeropuertos;
     } catch (error) {
         console.error('Error al obtener los aeropuertos cercanos:', error);
         return null;

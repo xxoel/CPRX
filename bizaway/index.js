@@ -1,4 +1,5 @@
 import { mostrarRuta } from "./routes.mjs";
+
 document.getElementById('routeForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -37,10 +38,7 @@ document.getElementById('routeForm').addEventListener('submit', function (event)
     }
 });
 
-
-
-function volverAlInicio() {
+document.getElementById('inicio').addEventListener('onclick', function (event) {
     window.location.href = 'index.html'; 
-}
-
+});
 
