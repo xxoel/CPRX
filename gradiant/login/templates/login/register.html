@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>{% block title %}Become a Customer{% endblock %}</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/register.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" >
+</head>
+
+<body>
+    <h1>BECOME A CUSTOMER</h1>
+
+    <form method="POST" action="">
+        <div class="spinner"></div>
+        
+        {%csrf_token%}
+        <div class="form-group">
+            <div class="parejita">
+                <div class="form-floating mb-3">
+                    {{form.email}}
+                    <label for="email">Email(*)</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {{form.username}}
+                    <label for="username">Usuario(*)</label>
+                </div>
+            </div>
+            <div class="parejita">
+                <div class="form-floating mb-3">
+                    {{form.password1}}
+                    <label for="password">Password(*)</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {{form.password2}}
+                    <label for="password2">Re-enter your password(*)</label>
+                </div>
+            </div>
+            {{ form.password1.help_text | safe }}
+        </div>
+
+        {% if form.errors %}
+            <h2 id="tituloError">ERRORS</h2>
+            <div class="recuadro">
+                <ul class="errorlist" id="listfull">
+                    {% for field in form %}
+                    {% if field.errors %}
+                    <li>
+                        <p class="erroritem">{{ field.label }}</p>
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div id="botns"> 
+            <input type="submit" name="Create User" id="register" value="REGISTER" class="botonblanco">
+            <p id="IniciaSesion">¿Already a customer? <a href="/">Sign In</a></p>
+        </div>
+
+
+    </form>
+
+    <div id="obligatorio">
+        <p id="">Fields marked with * are <u>required</u>.</p>
+    </div>
+
+    <script src="{% static 'register.js' %}"></script>
+
+</body>
+
+</html>

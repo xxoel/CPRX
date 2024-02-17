@@ -4,16 +4,32 @@
 {% block content %}
 <div class="spinner"></div>
 
-    <p>La media de consumo es de {{ consumo }} kW/h.</p>
+    {% if clients%}
 
-    <p>El valor máximo consumido es de {{ max.Consumo }} a las {{max.datetime|date:'H:i A'}} del día {{max.datetime|date:"d M Y"}}.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <select name="client" onchange="this.form.submit()">
+                {% for c in clients %}
+                    <option {% if selected == c %} selected {% endif %}>Client {{c}}</option>
+                {% endfor %}
+            </select>
+        </form>
 
-    <p>El valor mínimo consumido es de {{ min.Consumo }} a las {{min.datetime|date:'H:i A'}} del día {{min.datetime|date:"d M Y"}}.</p>
+        
+    {% endif %}
 
-    <p>Gráfica que representa el consumo medio por horas.</p>
+    {% if consumo %}
+        <p>The average consumption is {{ consumo }} kW/h.</p>
 
-    <img src='data:image/png;base64,{{graph}}'/>
+        <p>The maximum value consumed is {{ max.Consumo }} at {{max.datetime|date:'H:i A'}} on {{max.datetime|date:"d M Y"}}.</p>
 
-    
+        <p>The minimum value consumed is {{ min.Consumo }} at {{min.datetime|date:'H:i A'}} on {{min.datetime|date:"d M Y"}}.</p>
+
+        <p>Graph representing the average consumption per hour.</p>
+
+
+        <img src='data:image/png;base64,{{graph}}'/>
+    {% endif %}
+   
 
 {% endblock %}

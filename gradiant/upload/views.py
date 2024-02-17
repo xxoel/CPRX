@@ -1,13 +1,10 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .forms import DocumentForm
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 import os
 
-# Reading file from storage
-# file = default_storage.open(file_name)
-# file_url = default_storage.url(file_name)
-
+@login_required(login_url="/",redirect_field_name=None)
 def upload(request):
 
     message = 'Upload as many files as you want!'
