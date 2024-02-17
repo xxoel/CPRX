@@ -19,18 +19,20 @@ h1 {
 }
 
 #errores>p {
-    font-size: 90%;
+    font-size: 110%;
     font-style: italic;
     margin: auto;
     color: #9ca4ab;
 }
 
 #obligatorio > p{
+    font-size: large;
     text-align: center;
 }
+
 .botonblanco {
     background-color: white;
-    font-size: large;
+    font-size: xx-large;
     border-color: black;
     align-items: center;
 }
@@ -45,7 +47,7 @@ h1 {
 }
 
 #IniciaSesion {
-    font-size: 70%;
+    font-size: 100%;
     padding-top: 2%;
 }
 

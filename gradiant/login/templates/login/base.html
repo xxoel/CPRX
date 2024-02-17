@@ -11,32 +11,24 @@
   
   <!-- Add additional CSS in static file -->
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
   <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
   <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
 
 </head>
 <body>
-    <div class="split left">
-        
-      </div>
-      <div class="split right">
-        <div>
-          
-          <form method="post" action="{% url 'login' %}" id="inicioSesion" class="centered">
-            {% csrf_token %}
-            <h2 id="iniciaSesion">SIGN IN</h2>
-            <input type="text" placeholder="Username" name="email">
-            <input type="password" placeholder="Password" name="passwd">
-            <div id="botonesInicioSesion">
-              <p id="cuenta">¿No account yet?</p>
-              <a class="botonblanco" href="/register/">REGISTER</a>
-              <input type="submit" class="botonnegro" value="ENTER">    
-            </div>     
-            <p id"errorFallido">{{ error }}</p>   
-          </form>
-        </div>
-      </div>
+  <form method="post" action="{% url 'login' %}" id="inicioSesion" class="centered">
+    {% csrf_token %}
+    <h2 id="iniciaSesion">SIGN IN</h2>
+    <input type="text" placeholder="Username" name="email">
+    <input type="password" placeholder="Password" name="passwd">
+    <div id="botonesInicioSesion">
+      <p id="cuenta">¿No account yet?</p>
+      <a class="botonblanco" href="/register/">REGISTER</a>
+      <input type="submit" class="botonnegro" value="ENTER">    
+    </div>     
+    <p id="errorfallido">{{ error }}</p>   
+  </form>
         
 </body>
 </html>

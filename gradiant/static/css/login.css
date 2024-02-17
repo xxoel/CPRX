@@ -16,7 +16,6 @@
     font-size: 600%;
 }
 
-/* If you want the content centered horizontally and vertically */
 .centered {
     position: absolute;
     top: 50%;
@@ -30,7 +29,7 @@
 form {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 50%;
     border: 2px;
 }
 
@@ -59,7 +58,7 @@ form {
 
 a.botonblanco {
     background: white;
-    font-size: x-large;
+    font-size: xx-large;
     padding: 2px;
     text-align: center;
     color: black;
@@ -72,7 +71,7 @@ a.botonblanco {
 
 .botonnegro {
     color: white;
-    font-size: x-large;
+    font-size: xx-large;
     background-color: black;
     border-color: black;
 }
@@ -80,10 +79,13 @@ a.botonblanco {
 #cuenta {
     margin-left: -10px;
     text-align: left;
-    font-size: small;
+    font-size: large;
     font-weight: bolder;
 }
 
-#errorFallido {
+#errorfallido {
+    font-size: large;
+    color: red;
+    padding-top: 2%;
     padding-right: none;
 }

@@ -18,6 +18,7 @@ def login_view(request):
         logout(request=request)
         context={'error':'The user entered is not correct'}
         return render(request,'login/base.html', context)
+    return render(request,'login/404_error.html', {})
 
 def logout_view(request):
     logout(request)
