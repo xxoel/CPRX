@@ -4,6 +4,13 @@
 {% block content %}
 <div class="spinner"></div>
 
+    {% if nofile %}
+        <p>No data, upload a file first</p>
+        <a href="/upload">
+            <button>UPLOAD</button>
+          </a>
+    {% endif %}
+
     {% if clients%}
 
         <form method="POST">

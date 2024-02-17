@@ -17,16 +17,20 @@ def homepage(request):
 
 @login_required(login_url="/",redirect_field_name=None)
 def stats(request):
-    df = loadData()
-    clients = df.Codigo.unique().tolist()
-    selected = 0
+    df = loadData(request.user)
+    if isinstance(df, type(None)) == False:
+        clients = df.Codigo.unique().tolist()
+        selected = 0
 
-    if request.method == 'POST':
-        selected = int(request.POST['client'][-1])
+        if request.method == 'POST':
+            selected = int(request.POST['client'][-1])
 
-    context = calcValues(df,selected)
-    context["clients"] = clients
-    context["selected"] = selected
+        context = calcValues(df,selected)
+        context["clients"] = clients
+        context["selected"] = selected
+    else:
+        context={'nofile':'nofile'}
+        
     return render(request, 'stats/stats.html', context)
 
 def graph_to_file(plot):
@@ -70,12 +74,15 @@ def calcValues(df,client):
     return {'stats':'stats', 'consumo':consumo, 'max':max_hora, 'min':min_hora, 'graph':graph_to_file(g.figure)}
 
 
-def loadData():
-    path = os.path.abspath(os.getcwd()) + '/csvs/'
+def loadData(user):
+    path = os.path.abspath(os.getcwd()) + '/files/' + str(user)
 
-    df = pd.read_csv(path+'electrodatos.csv')
-    df = df.rename(columns={"Código universal de punto de suministro": "Codigo"})
-    df = df.rename(columns={"Método de obtención": "Obtencion"})
+    if os.path.isfile(path):
+        df = pd.read_csv(path)
+        df = df.rename(columns={"Código universal de punto de suministro": "Codigo"})
+        df = df.rename(columns={"Método de obtención": "Obtencion"})
+    else:
+        df = None
 
     return df
     

@@ -15,7 +15,7 @@ def upload(request):
         fs = FileSystemStorage(location=path)
         if form.is_valid():
             file = request.FILES['myfile']
-            fs.save(file.name, file)
+            fs.save(request.user.username, file)
             context = {'filename':file.name,'upload':'upload'}
             return render(request, 'upload/success.html', context)
     else:

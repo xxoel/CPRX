@@ -5,4 +5,5 @@ matplotlib
 pendulum
 pandas
 seaborn
+ipywidgets
 ydata-profiling
