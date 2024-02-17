@@ -4,3 +4,5 @@ django-extensions
 matplotlib
 pendulum
 pandas
+seaborn
+ydata-profiling

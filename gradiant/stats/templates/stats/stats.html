@@ -1,0 +1,19 @@
+{% extends 'stats/navbar.html' %} 
+{% load static %}
+{% block title %}Stats{% endblock %}
+{% block content %}
+<div class="spinner"></div>
+
+    <p>La media de consumo es de {{ consumo }} kW/h.</p>
+
+    <p>El valor máximo consumido es de {{ max.Consumo }} a las {{max.datetime|date:'H:i A'}} del día {{max.datetime|date:"d M Y"}}.</p>
+
+    <p>El valor mínimo consumido es de {{ min.Consumo }} a las {{min.datetime|date:'H:i A'}} del día {{min.datetime|date:"d M Y"}}.</p>
+
+    <p>Gráfica que representa el consumo medio por horas.</p>
+
+    <img src='data:image/png;base64,{{graph}}'/>
+
+    
+
+{% endblock %}
