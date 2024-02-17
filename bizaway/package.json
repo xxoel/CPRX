@@ -14,6 +14,7 @@
   "author": "RyoSh1, xxoel, Ruby960, Constantinoalves",
   "license": "MIT",
   "dependencies": {
+    "amadeus": "^9.1.0",
     "http-server": "^14.1.1"
   }
 }

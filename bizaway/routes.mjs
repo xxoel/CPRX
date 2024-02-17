@@ -1,4 +1,4 @@
-
+import { buscarVuelosDeIda } from "./flights.mjs";
 
 export function mostrarRuta(origen, destino, container) {
     obtenerCoordenadas(origen)
@@ -25,6 +25,7 @@ function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestino, con
         .then(data => {
             console.log(data.paths[0].distance);///esta es la distancia en kilómetros
             obtenerAeropuertosCercanos(coordenadasOrigen.latitud, coordenadasOrigen.longitud, 100000);
+            buscarVuelosDeIda("TOJ","SCQ","18/02/2024");
             mostrarRutaEnMapaCliente(data, container);
         })
         .catch(error => {
