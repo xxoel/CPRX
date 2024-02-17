@@ -3,28 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualización de Ruta</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-    <link rel="stylesheet" href="styles.css">
+    <title>Pantalla de Inicio</title>
 </head>
 <body>
-    <div class="input-container">
-        <form id="routeForm">
-            <label for="numberInput">Ingrese un número:</label>
-            <input type="number" id="numberInput" name="number" required>
-            
-            <!-- Agrega el campo de entrada para el destino -->
-            <label for="destinationInput">Destino:</label>
-            <input type="text" id="destinationInput" name="destination" required>
-            
-            <button type="submit">Generar</button>
-        </form>
-    </div>
+    <h1>Bienvenido a la Pantalla de Inicio</h1>
+    <button onclick="irAPantallaDeBusqueda()">Ir a la Pantalla de Búsqueda</button>
 
-    <div id="output-container"></div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="index.js"></script>
+    <script>
+        function irAPantallaDeBusqueda() {
+            window.location.href = 'busqueda.html';
+        }
+    </script>
 </body>
 </html>

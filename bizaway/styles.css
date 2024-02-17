@@ -1,9 +1,13 @@
 body {
+    background-image: url('/pics/bg.png'); /* Reemplaza 'ruta/de/tu/imagen.jpg' con la ruta de tu imagen */
+    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
+    background-position: center; /* Centra la imagen en el fondo */
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     margin: 0;
 }
 
@@ -15,10 +19,11 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: flex-start; /* Alinea los elementos hacia arriba */
 }
 
 .dynamic-input {
-    margin: 5px;
+    margin: 10px;
     display: flex;
     align-items: center;
 }
@@ -41,13 +46,15 @@ body {
     max-height: 1px;
 }
 
+.map-container {
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    margin: 10px; /* Ajusta el margen para separar los mapas */
+    width: 300px;
+    flex-shrink: 0;
+}
+
 #map {
     height: 400px;
     width: 100%;
     margin-top: 20px;
 }
-.map-container {
-    height: 300px; /* Ajusta la altura según tus necesidades */
-    margin-top: 10px; /* Ajusta el margen superior según tus necesidades */
-    width: 300px;
-  }
