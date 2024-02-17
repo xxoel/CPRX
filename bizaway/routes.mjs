@@ -1,7 +1,7 @@
 import { buscarVuelosDeIda } from "./flights.mjs";
 //import L from 'leaflet';
 
-
+var array = [];
 var apiKey = '132e1158-0596-4825-9df1-e4c076b7fc3b';
 var apiBaseUrl = 'https://graphhopper.com/api/1/route?point=';
 
@@ -85,9 +85,6 @@ function obtenerCoordenadas(ciudad) {
         });
 }
 
-
-
-// ...
 
 function mostrarRutaEnMapaCliente(data, container, isSubRoute) {
     if (!(container instanceof HTMLElement)) {
