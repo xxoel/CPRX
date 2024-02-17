@@ -40,8 +40,9 @@ def register(request):
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     login(request, user)
+                    return redirect('/stats')
                 else:
-                    return redirect('/register/')
+                    return redirect('/register')
             else:
                 form.add_error('email', 'This email is already in use.')
 

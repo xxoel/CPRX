@@ -12,7 +12,7 @@ import base64
 
 @login_required(login_url="/",redirect_field_name=None)
 def homepage(request):
-    context = {'stats':'stats'}
+    context = {'stats':'stats','iniciales':request.user.username[:2]}
     return render(request, 'stats/index.html', context)
 
 @login_required(login_url="/",redirect_field_name=None)
@@ -28,8 +28,9 @@ def stats(request):
         context = calcValues(df,selected)
         context["clients"] = clients
         context["selected"] = selected
+        context["iniciales"] = request.user.username[:2]
     else:
-        context={'nofile':'nofile'}
+        context={'nofile':'nofile','iniciales':request.user.username[:2]}
         
     return render(request, 'stats/stats.html', context)
 
