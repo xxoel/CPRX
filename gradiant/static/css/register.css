@@ -1,0 +1,135 @@
+@font-face {
+    font-family: victorMonoRegular;
+    src: url("/static/res/VictorMono-Regular.otf");
+}
+
+@font-face {
+    font-family: victorMonoItalic;
+    src: url("/static/res/VictorMono-Italic.otf");
+}
+
+* {
+    font-family: victorMonoRegular;
+}
+
+h1 {
+    font-size: 400%;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+#errores>p {
+    font-size: 90%;
+    font-style: italic;
+    margin: auto;
+    color: #9ca4ab;
+}
+
+#obligatorio > p{
+    text-align: center;
+}
+.botonblanco {
+    background-color: white;
+    font-size: large;
+    border-color: black;
+    align-items: center;
+}
+
+#botns {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+
+}
+
+#IniciaSesion {
+    font-size: 70%;
+    padding-top: 2%;
+}
+
+.erroritem{
+    text-decoration: underline;
+    font-weight: bold;
+    margin: auto;
+}
+
+.errorlist {
+    text-align: center;
+    list-style: none;
+}
+
+.recuadro {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+#listfull {
+    margin: auto;
+    padding:0px;
+    
+}
+
+#tituloError {
+    text-align: center;
+}
+
+
+
+/*<ul class="errorlist"><li>password2<ul class="errorlist"><li>The two password fields didn’t match.</li></ul></li></ul>*/
+
+/*#errores {
+    
+}*/
+
+
+.parejita {
+    display: flex;
+    flex-direction: row;
+  }
+  
+.parejita .form-floating {
+    flex: 1;
+    margin-right: 10px;
+    border-color: #c9c9c9;
+    border-style: solid;
+}
+
+#addr_div{
+    flex: 50%;
+    margin-left: 10px;
+}
+
+#first_name_div {
+    flex: 40%;
+}
+
+#last_name_div {
+    flex: 60%;
+}
+
+select {
+    height: 80%;
+}
+
+#gender {
+    border: solid #c9c9c9;
+    transition: 0s;
+}
+
+#gender:active, #gender:focus {
+   outline: thick solid white;
+   border: solid #9ca4ab;
+}
+
+form {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+
+.spinner {
+    margin-bottom: 1%;
+}

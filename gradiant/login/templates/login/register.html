@@ -46,6 +46,11 @@
         </div>
 
         {% if form.errors %}
+
+            <script> 
+                document.querySelector(".spinner").innerHTML = "";
+            </script>
+
             <h2 id="tituloError">ERRORS</h2>
             <div class="recuadro">
                 <ul class="errorlist" id="listfull">

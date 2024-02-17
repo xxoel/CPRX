@@ -6,4 +6,5 @@ pendulum
 pandas
 seaborn
 ipywidgets
+pip install django-bootstrap4
 ydata-profiling
