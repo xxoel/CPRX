@@ -41,7 +41,7 @@ async function obtenerRuta(origen, destino, coordenadasOrigen, coordenadasDestin
 
         console.log("Gasto Real =" + gastoTotalCoche + " Gasto con vuelo:" + gastoTotalVuelo);
         var contenedorMapa = document.createElement('div');
-        contenedorMapa.style.width = '100%'; // Ajusta según sea necesario
+        contenedorMapa.style.width = '300px'; // Ajusta según sea necesario
         contenedorMapa.style.height = '300px';
         if (gastoTotalCoche < gastoTotalVuelo) {
             // Si el gasto en coche es menor, muestra la ruta en el mapa
@@ -105,6 +105,7 @@ function mostrarRutaEnMapaCliente(data, container, isSubRoute) {
         subContainer.style.height = '300px'; // Ajusta según sea necesario
         subContainer.style.marginRight = '10%';
         subContainer.style.marginLeft = '10%';
+        subContainer.style.
         container.appendChild(subContainer);
 
         // Inicializa el mapa en el nuevo contenedor
