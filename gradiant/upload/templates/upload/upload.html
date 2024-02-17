@@ -4,15 +4,19 @@
 {% block content %}
 <div class="spinner"></div>
 
+      <div class="centered">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ message }}
-            <input type="file" name="myfile">
-            <button type="submit">Upload</button>
+            <h2>{{ message }}</h2>
+            <div class="flex">
+              <input class="form-control" id="center" type="file" name="myfile">
+              <button class="botonblanco" type="submit">Upload</button>
+            </div>
           </form>
 
         {% if form.errors %}
-            <h1>{{ form.errors.myfile }}</h1>
+            <p>{{ form.errors.myfile }}</p>
         {% endif %}
+      </div>
 
 {% endblock %}

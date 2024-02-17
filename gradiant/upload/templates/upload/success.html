@@ -4,6 +4,9 @@
 {% block content %}
 <div class="spinner"></div>
 
-        <h1>File "{{ filename }}" was successfully uploaded</h1>
+        <div class="centered">
+                <h2>File "<u>{{ filename }}</u>" was successfully uploaded</h2>
+                <a href="/stats"> <button class="botonblanco">GO TO STATS</button> </a>
+        </div>
 
 {% endblock %}

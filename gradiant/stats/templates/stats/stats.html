@@ -5,37 +5,77 @@
 <div class="spinner"></div>
 
     {% if nofile %}
-        <p>No data, upload a file first</p>
-        <a href="/upload">
-            <button>UPLOAD</button>
-          </a>
+        <div class="centered">
+            <p id="nofile">No data, upload a file first</p>
+            <a href="/upload">
+                <button class="botonblanco">UPLOAD</button>
+            </a>
+        </div>
     {% endif %}
 
     {% if clients%}
 
-        <form method="POST">
+        <form class="aligncenter" method="POST">
             {% csrf_token %}
-            <select name="client" onchange="this.form.submit()">
+            <select class="form-select" id="selectclient" name="client" onchange="this.form.submit()">
                 {% for c in clients %}
                     <option {% if selected == c %} selected {% endif %}>Client {{c}}</option>
                 {% endfor %}
             </select>
+
+            <div class="flewrow">
+                <input type="time" class="form-control" id="selecthour" name="hour" {% if hour %} value={{hour}} {% endif%} onchange="this.form.submit()"/>
+                <button id="resetbutton">Clear</button>
+            </div>
+            <input class="form-control" id="selectclient" type="month" name="month" {% if month %} value={{month}} {% endif%} onchange="this.form.submit()"/>
+        
         </form>
+
+        <script>
+            document.getElementById("resetbutton").addEventListener("click", function(event){
+                document.getElementById("selecthour").value='';
+              });
+        </script>
 
         
     {% endif %}
 
     {% if consumo %}
-        <p>The average consumption is {{ consumo }} kW/h.</p>
 
-        <p>The maximum value consumed is {{ max.Consumo }} at {{max.datetime|date:'H:i A'}} on {{max.datetime|date:"d M Y"}}.</p>
+        <div class="centered" id="content">
+            <div id="left">
 
-        <p>The minimum value consumed is {{ min.Consumo }} at {{min.datetime|date:'H:i A'}} on {{min.datetime|date:"d M Y"}}.</p>
+                {% if not hour %}
+                    <p>The price per kW/h at this moment is <strong>{{price|floatformat:3}}€</strong></p>
+                {% else %}
+                    <p>The price per kW/h at {{hour}} is <strong>{{price|floatformat:3}}€</strong></p>
+                {% endif %}
 
-        <p>Graph representing the average consumption per hour.</p>
+                <p>The average usage is <strong>{{ consumo|floatformat:3 }} kW/h</strong>.</p>
+    
+                <p>The maximum value consumed is <strong>{{ max.Consumo|floatformat:3 }} kW/h</strong> at {{max.datetime|date:'H:i A'}} on {{max.datetime|date:"d M Y"}}.</p>
+    
+                <p>The minimum value consumed is <strong>{{ min.Consumo|floatformat:3 }} kW/h</strong> at {{min.datetime|date:'H:i A'}} on {{min.datetime|date:"d M Y"}}.</p>
+                
+                <div class="prices">
+                    <p>So, with this values, the cost is between <strong>{{cost.min|floatformat:3}}€</strong> and <strong>{{cost.max|floatformat:3}}€</strong>.</p>
+                    <p>On average <strong>{{cost.avg|floatformat:3}}€</strong></p>
+                </div>
+                
+    
+            </div>
+            <div id="right">
+                {% if not hour %} <p>Graph representing the average usage per hour.</p> {% endif %}
+                {% if not month and hour %} <p>Graph representing the average usage per date at {{hour}}.</p> {% endif %}
+                {% if hour and month %} <p>Graph representing the usage per day at {{hour}} on {{month}}.</p> {% endif %}
+                <img src='data:image/png;base64,{{graph}}'/> 
+            </div>
+        </div>
+        
+    {% endif %}
 
-
-        <img src='data:image/png;base64,{{graph}}'/>
+    {% if nodata %}
+        <h2 class="centered">No valid data</h2>
     {% endif %}
    
 
